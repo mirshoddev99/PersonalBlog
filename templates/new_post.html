@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style>
+
+  .container {
+    width: 1000px;
+    height: 650px;
+    margin: 5px auto;
+  }
+
+    h2{
+        text-align: center;
+        padding-bottom: 5px;
+    }
+
+     input{
+      width: 52rem;
+      margin-left: 5px;
+      margin-top: 10px;
+
+  }
+
+</style>
+
+<br><br>
+
+<div class="container">
+  <h2>New Post</h2>
+<form method="post" action="" enctype="multipart/form-data">
+
+  {% csrf_token%}
+  {{ form.media }}
+  {{ form.as_p }}
+
+  <input class="btn btn-danger" type="submit" name="Create Task">
+</form>
+      <br>
+</div>
+
+
+{% endblock content %}

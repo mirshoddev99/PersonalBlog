@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+
+
+{% block content %}
+<br>
+{% for post in blog %}
+<br>
+<div class="card" style="width: 60rem; margin: 20px auto;" >
+  <div class="card-body"  style=" background-color: #eeece8;">
+    {% if post.photo %}
+    <img class="card-img-top" src="{{ post.photo.url }}" alt="{{ post.title }}">
+    <br><br>
+    {% endif %}
+    <h5 class="card-title"><a href="{% url 'post_detail' post.pk  %}" style="text-decoration: none;">{{ post.title }}</a></h5>
+    <p class="card-text">{{ post.text | slice:'100' | safe }}...</p>
+  </div>
+  <div class="card-footer text-left text-muted">
+    <span class="text-muted">Author: {{ post.author }} | {{ post.add_time }} </span>
+  </div>
+</div>
+{% endfor%}
+
+
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bosh sahifa{% endblock title %}
+
+{% block content %}
+    <br/>
+<div class="container" style="margin: auto; display: flex; align-items: center; justify-content: center; margin-top: 60px;">
+    <div class="jumbotron">
+        <h2 class="display-5">Welcome to MirshodDev's personal blog!</h2>
+        <hr class="my-4">
+        <h6>Here you can get the latest news about programming and developers.</h6><br>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">View post</a>
+        </p>
+    </div>
+</div>
+{% endblock content %}

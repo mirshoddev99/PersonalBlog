@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+<h2 style="text-align: center;">Delete post</h2>
+
+{% block content %}
+
+<div class="container" style="margin: 100px 30%;">
+
+    <h3 style="padding-bottom: 20px;">Are you sure want to delete "{{ blog }}" post?</h3>
+    <form action="" method="post">
+
+      {% csrf_token %}
+        <input type="submit" style="margin-right: 5px;" class="btn btn-danger"  name="Confirm">
+        <a href="{% url 'post_detail' blog.pk %}" class="btn btn-info">Cancel</a>
+
+    </form>
+
+</div>
+
+
+{% endblock content %}
+
+
