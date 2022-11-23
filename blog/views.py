@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render,redirect
 from .models import Blog, Comment
@@ -23,7 +24,8 @@ class CommentView(CreateView):
 def detail(request, pk):
     blog = Blog.objects.get(id=pk)
     comments = blog.comments.all()
-    context = {'blog': blog, "comments":comments}
+    superuser = User.objects.get(id=1)
+    context = {'blog': blog, "comments":comments, "superuser":superuser}
     return render(request, 'post_detail.html', context)
 
 
@@ -36,7 +38,8 @@ def main(request):
 
 def index(request):
     blog = Blog.objects.all()
-    context = {'blog': blog}
+    superuser = User.objects.get(id=1)
+    context = {'blog': blog, "superuser":superuser}
     return render(request, 'home.html', context)
 
 

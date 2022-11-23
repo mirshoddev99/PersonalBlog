@@ -18,7 +18,7 @@
     <p class="card-text">{{ post.text | slice:'100' | safe }}...</p>
   </div>
   <div class="card-footer text-left text-muted">
-    <span class="text-muted">Author: {{ post.author }} | {{ post.add_time }} </span>
+    <span class="text-muted">Author: {{ superuser.username }} | {{ post.add_time }} </span>
   </div>
 </div>
 {% endfor%}
