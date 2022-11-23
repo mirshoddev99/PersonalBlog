@@ -1,1 +1,3 @@
 This was written while learning Git/Github from Alisher Musurmonov
+
+Git Pull to get the latest changed version of a project
