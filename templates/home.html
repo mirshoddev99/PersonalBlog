@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 
 
 {% block content %}
 <br>
-{% for post in blog %}
+{% for post in page_obj %}
 <br>
 <div class="card" style="width: 60rem; margin: 20px auto;" >
   <div class="card-body"  style=" background-color: #eeece8;">
@@ -22,6 +23,25 @@
   </div>
 </div>
 {% endfor%}
+<br><br>
 
+
+<nav>
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+        {% endif %}
+
+        <li class="page-item active">
+            <a href="#" class="page-link">{{ page_obj.number }}</a>
+        </li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
 
 {% endblock content %}

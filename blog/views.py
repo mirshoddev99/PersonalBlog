@@ -1,32 +1,12 @@
-from django.contrib.auth.models import User
-from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+from django.urls import reverse
 from django.shortcuts import render,redirect
+from django.views import View
+from members.models import CustomUser
 from .models import Blog, Comment
 from .forms import BlogForm, BlogChangeForm, CommentForm
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView
-
-
-
-
-class CommentView(CreateView):
-    model = Comment
-    form_class = CommentForm
-    template_name = 'add_comment.html'
-    success_url = reverse_lazy('home')
-
-    def form_valid(self, form):
-        form.instance.article_id = self.kwargs['pk']
-        return super().form_valid(form)
-
-
-
-def detail(request, pk):
-    blog = Blog.objects.get(id=pk)
-    comments = blog.comments.all()
-    superuser = User.objects.get(id=1)
-    context = {'blog': blog, "comments":comments, "superuser":superuser}
-    return render(request, 'post_detail.html', context)
 
 
 
@@ -35,14 +15,18 @@ def main(request):
 
 
 
-
 def index(request):
-    blog = Blog.objects.all()
-    superuser = User.objects.get(id=1)
-    context = {'blog': blog, "superuser":superuser}
+    blog = Blog.objects.all().order_by('-id')
+    superuser = CustomUser.objects.get(is_superuser=True)
+
+    # pagination section
+    page_size = request.GET.get("page_size", 2)
+    paginator = Paginator(blog, page_size)
+    page_num = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_num)
+
+    context = {'page_obj': page_obj, "superuser":superuser}
     return render(request, 'home.html', context)
-
-
 
 
 
@@ -61,6 +45,7 @@ def add(request):
     return render(request, 'new_post.html', context)
 
 
+
 def edit(request, pk):
     blog = Blog.objects.get(id=pk)
     form = BlogChangeForm(instance=blog)
@@ -74,6 +59,7 @@ def edit(request, pk):
     return render(request, 'post_edit.html', context)
 
 
+
 def delete(request, pk):
     blog = Blog.objects.get(id=pk)
 
@@ -83,5 +69,33 @@ def delete(request, pk):
 
     context = {'blog':blog}
     return render(request, 'post_delete.html', context)
+
+
+
+class BlogDetailView(View):
+    def get(self, request, id):
+        blog = Blog.objects.get(id=id)
+        comment_form = CommentForm()
+        superuser = CustomUser.objects.get(is_superuser=True)
+        context = {'blog': blog, "superuser": superuser, "comment_form": comment_form}
+        return render(request, 'post_detail.html', context)
+
+
+
+class CommentView(View, LoginRequiredMixin):
+    def post(self, request, id):
+        blog = Blog.objects.get(id=id)
+        comment_form = CommentForm(data=request.POST)
+
+        if comment_form.is_valid():
+            Comment.objects.create(
+                article = blog,
+                body = comment_form.cleaned_data['body'],
+                subscriber = request.user
+            )
+            return redirect(reverse("post_detail", kwargs={"id":blog.id}))
+
+        return render(request, "post_detail.html", {"comment_form":comment_form, "blog":blog})
+
 
 

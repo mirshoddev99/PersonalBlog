@@ -1,15 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
-from django.shortcuts import reverse
-# Create your models here.
-
+from django.utils import timezone
+from members.models import CustomUser
 
 
 class Blog(models.Model):
     class Meta:
         ordering = ['-add_time']
-    # name = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
     text = RichTextField(blank=True, null=True)
     photo = models.ImageField(upload_to='images/', blank=True)
@@ -26,14 +24,14 @@ class Blog(models.Model):
 
 
 class Comment(models.Model):
-    article = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
-    name = models.CharField(max_length=200)
+    article = models.ForeignKey(Blog, on_delete=models.CASCADE)
     body = RichTextField()
-    created_on = models.DateTimeField()
+    created_on = models.DateTimeField(default=timezone.now)
+    subscriber = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return str(self.name)
+        return self.article.title
 
 
 

@@ -7,19 +7,17 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('body',)
-        widgets = {'body': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Type something...'})}
-
 
     def __init__(self, *args, **kwargs):
-        super(CommentForm, self).__init__(*args, **kwargs)  # Call to ModelForm constructor
-        self.fields['body'].widget.attrs['style'] = 'width:600px;'
-
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['body'].label = ""
 
 
 
 
 class BlogForm(forms.ModelForm):
     class Meta:
+
         model = Blog
         fields = ('title', 'text', 'photo')
         widgets = {
@@ -36,11 +34,12 @@ class BlogForm(forms.ModelForm):
 
 
 class BlogChangeForm(forms.ModelForm):
+    photo = forms.ImageField(label="")
+
     class Meta:
         model = Blog
         fields = ['text', 'photo']
         widgets = {'text': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Type something...'})}
-
 
 
     def __init__(self, *args, **kwargs):

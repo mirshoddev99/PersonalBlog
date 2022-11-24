@@ -1,7 +1,48 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
-        <div class="card">
+
+<style>
+
+  .card{
+     width: 1200px;
+     margin: 15px auto;
+     padding: 15px;
+  }
+
+
+  .container{
+    width: 1200px;
+    margin: 15px auto;
+    padding: 35px;
+
+  }
+
+  .add_coment{
+    text-align: end;
+    margin-bottom: 20px;
+}
+
+
+   .containerr {
+    width: 1000px;
+    height: 650px;
+    margin: 5px auto;
+  }
+
+    h1{
+        text-align: center;
+        padding-bottom: 5px;
+    }
+
+
+
+</style>
+
+
+<div class="card mb-5" style="margin: 30px auto;">
           <div class="card-body">
               {%  if blog.photo %}
                 <img class="card-img-top" src="{{ blog.photo.url }}" alt="{{ blog.title }}"><br><br>
@@ -20,67 +61,56 @@
     <h6><a href="{% url 'home' %}"style="text-decoration: none;">All posts</a></h6>
 </div>
 </div>
-
-
-<style>
-
-  .card{
-     width: 1200px;
-     margin: 15px auto;
-     padding: 15px;
-  }
-
-
-  .container{
-    width: 1200px;
-    margin: 15px auto;
-    padding: 35px;
-
-  }
-
-
-</style>
-
-
 <br><br>
-<section>
-    <div class="container">
-
-        <h2>Comments...</h2>
-        <hr>
-        <br>
-
-        {% if not comments %}
-        {% if not user.is_authenticated %}
-
-            No Comments Yet... <br><br>
-        <a href="{% url 'register' %}" style="text-decoration: none;">Add comment</a>
-        {% else %}
-                    No Comments Yet... <br><br>
-                <a href="{% url 'add_comment' blog.pk %}" style="text-decoration: none;">Add comment</a>
-        {% endif %}
+<br><br>
 
 
-        {% else %}
-            {% if not user.is_authenticated %}
-                <a href="{% url 'register' %}" style="text-decoration: none;">Add comment</a>
-            {% elif user.is_authenticated %}
-                <a href="{% url 'add_comment' blog.pk %}" style="text-decoration: none;">Add comment</a>
-            {% endif %}
 
-        <br><br>
+{% if blog.comment_set.all.exists %}
+    <h3>Reviews</h3>
+    <hr>
+   {% for review in blog.comment_set.all %}
 
-            {% for comment in comments %}
-                <strong>
-                {{ comment.name | safe }} - {{ comment.created_on }}
-                </strong>
-                <p>{{ comment.body | safe}}</p><br>
-            {% endfor %}
-        <br><br>
+        <div class="row mt-5 mb-5">
+            <div class="col-6">
+                <strong>{{ review.subscriber.username | safe }} - {{ review.created_on }}</strong>
+                <p>{{ review.body | safe}}</p>
+            </div>
+        </div>
 
-        {% endif %}
+  {% endfor %}
+
+{% endif %}
+
+{% if request.user.is_authenticated %}
+
+<div class="row mt-5">
+    <div class="col-6">
+            <h1 class="add_coment">Leave a comment</h1>
+            <form action="{% url 'reviews' blog.id %}" method="post">
+                  {% csrf_token %}
+                  {{ comment_form.media }}
+                  {{ comment_form | crispy }}
+
+                <button type="submit" class="btn btn-success">Add review</button>
+            </form>
     </div>
+</div>
 
-</section>
 
+{% else %}
+<div class="row mt-5">
+    <div class="col-6">
+            <h1 class="add_coment">Leave a comment</h1>
+            <form method="post">
+                  {% csrf_token %}
+                  {{ comment_form.media }}
+                  {{ comment_form | crispy }}
+
+                <a href="{% url 'members:register' %}" class="btn btn-success" role="button">Add review</a>
+            </form>
+    </div>
+</div>
+
+{% endif %}
 {% endblock content %}
