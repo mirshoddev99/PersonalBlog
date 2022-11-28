@@ -14,7 +14,6 @@ def main(request):
     return render(request, 'main.html')
 
 
-
 def index(request):
     blog = Blog.objects.all().order_by('-id')
     superuser = CustomUser.objects.get(is_superuser=True)
