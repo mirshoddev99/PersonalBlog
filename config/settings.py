@@ -48,8 +48,18 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'blog',
     'members',
+    'rest_framework',
+    'api',
 ]
 
+# settings of DRF
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2
+}
+
+
+# settings of Crispy Form
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 

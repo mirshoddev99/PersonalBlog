@@ -12,11 +12,6 @@ class Blog(models.Model):
     text = RichTextField(blank=True, null=True)
     photo = models.ImageField(upload_to='images/', blank=True)
     add_time = models.DateTimeField(auto_now_add=True, null=True)
-    author = models.ForeignKey(
-        get_user_model(),
-        on_delete=models.CASCADE,
-        null=True
-    )
 
     def __str__(self):
         return f"{self.title}"
