@@ -9,7 +9,7 @@ from blog.models import Blog
 
 class PostListAPIView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Blog.objects.all().order_by('id')
+    queryset = Blog.objects.all().order_by('-id')
     serializer_class = BlogSerializer
     lookup_field = 'id'
     pagination_class = PageNumberPagination

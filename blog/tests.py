@@ -8,8 +8,11 @@ from members.models import CustomUser
 class PostsTestCase(TestCase):
 
     def test_posts(self):
-        super_user = CustomUser.objects.create_superuser(username="Mirshod", email="oripovmirshod9@gmail.com",
-                                                         password="mirshod@99!")
+        super_user = CustomUser.objects.create_superuser(
+            username="Mirshod",
+            email="oripovmirshod9@gmail.com",
+            password="mirshod@99!")
+
         self.client.login(username="Mirshod", password="mirshod@99!")
 
         res = self.client.get(reverse("home"))
@@ -36,8 +39,11 @@ class PostsTestCase(TestCase):
 
     def test_update_post_and_pagination(self):
 
-        super_user = CustomUser.objects.create_superuser(username="Mirshod", email="oripovmirshod9@gmail.com",
-                                                         password="mirshod@99!")
+        super_user = CustomUser.objects.create_superuser(
+            username="Mirshod",
+            email="oripovmirshod9@gmail.com",
+            password="mirshod@99!")
+
         self.client.login(username="Mirshod", password="mirshod@99!")
 
         post = self.client.post(reverse("new_post"),
@@ -76,9 +82,8 @@ class PostsTestCase(TestCase):
 
 class CommentTestCase(TestCase):
 
-    def setUp(self) -> None:
-        self.user = CustomUser.objects.create_superuser(username="Mirshod", email="oripovmirshod9@gmail.com",
-                                                        password="mirshod@99!")
+    def setUp(self):
+        self.user = CustomUser.objects.create_superuser(username="Mirshod", email="oripovmirshod9@gmail.com", password="mirshod@99!")
         self.client.login(username="Mirshod", password="mirshod@99!")
 
     def test_comment(self):
