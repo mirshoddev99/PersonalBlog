@@ -21,6 +21,7 @@ class RegisterView(View):
 
         if user_form.is_valid():
             user_form.save()
+            messages.success(request, ("You have successfully registered"))
             return redirect("members:login")
         return render(request, "registration/register.html", {"user_form":user_form})
 
