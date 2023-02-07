@@ -43,7 +43,7 @@
 <div class="card mb-5" style="margin: 30px auto;">
           <div class="card-body">
               {%  if blog.photo %}
-                <img class="card-img-top" src="{{ static blog.photo.url }}" alt="{{ blog.title }}"><br><br>
+                <img class="card-img-top" src="{{ blog.photo.url }}" alt="{{ blog.title }}"><br><br>
               {% endif %}
               <h1 class="card-title">{{ blog.title }}</h1><br>
               <h6 class="card-subtitle mb-2 text-muted">Author: {{ superuser.username }} | {{ blog.add_time }}</h6>
