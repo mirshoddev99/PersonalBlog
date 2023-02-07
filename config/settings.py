@@ -27,8 +27,8 @@ DEBUG = False
 # Deployment settings
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
+# if not DEBUG:
+#     CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'deafening-wilderness-production.up.railway.app']
 
