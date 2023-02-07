@@ -24,14 +24,15 @@ SECRET_KEY = 'django-insecure-6zh#1m@4f)3ngqb6)3tdbe-up*4ko52d9w)(cwsmuxlalfxz8+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Deployment settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 if not DEBUG:
     CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
-
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'deafening-wilderness-production.up.railway.app']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
