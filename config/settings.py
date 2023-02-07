@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
+    'django.contrib.staticfiles',
     "crispy_forms",
     "crispy_bootstrap5",
     'ckeditor',
@@ -144,6 +144,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
