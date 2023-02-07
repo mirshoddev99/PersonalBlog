@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-6zh#1m@4f)3ngqb6)3tdbe-up*4ko52d9w)(cwsmuxlalfxz8+
 DEBUG = False
 
 if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['deafening-wilderness-production.up.railway.app']
+    CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
+
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'deafening-wilderness-production.up.railway.app']
 
