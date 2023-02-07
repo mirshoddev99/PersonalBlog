@@ -36,9 +36,3 @@ if settings.DEBUG:
 
 
 
-
-
-
-
-
-

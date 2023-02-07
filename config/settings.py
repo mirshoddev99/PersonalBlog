@@ -30,7 +30,7 @@ CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
 # CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
 
-if not DEBUG:
+if DEBUG:
     CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
 
 
