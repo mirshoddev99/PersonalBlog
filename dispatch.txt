@@ -1,0 +1,35 @@
+Using dispatch method of Django's View with Mixins
+For example, you could define a custom mixin like this:
+
+
+class CustomUserMixin:
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        if not isinstance(user, CustomUser):
+            return redirect("other_view")
+        return super().dispatch(request, *args, **kwargs)
+Then you can use this mixin in any views that require the user to be a CustomUser, like this:
+
+
+class MyView(CustomUserMixin, View):
+    def get(self, request):
+        # view logic goes here
+Using a mixin like this can make your code more modular and easier to understand, since it separates the custom behavior from the main logic of the view.
+
+
+
+
+                                                Questioned by me
+In here,         return super().dispatch(request, *args, **kwargs)
+in this code get method of MyView is executed regular if user is instance of CustomUser model right. user will be redirected to other_view View if user is not instance of CustomUser model right
+
+
+                                                Answered by ChatGPT
+Yes, that's correct. In the dispatch method of the CustomUserMixin, the code checks if the current user is an instance of CustomUser.
+If the user is an instance of CustomUser, then the super().dispatch(request, *args, **kwargs) line will call the dispatch method of the original view (in this case, MyView).
+This will execute the get method of MyView (or post if the request is a POST request), and return the result.
+
+If the user is not an instance of CustomUser, then the code will redirect the user to the other_view using redirect("other_view").
+This will end the request processing for the current view, and send a redirect response to the user's browser. The get method of MyView will not be executed in this case.
+
+So in summary, if the user is a CustomUser, the view will execute normally, and if the user is not a CustomUser, the user will be redirected to other_view without executing the main logic of MyView.

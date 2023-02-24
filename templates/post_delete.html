@@ -6,7 +6,7 @@
 
 <div class="container" style="margin: 100px 30%;">
 
-    <h3 style="padding-bottom: 20px;">Are you sure want to delete "{{ blog }}" post?</h3>
+    <h3 style="padding-bottom: 20px;">Are you sure want to delete "{{ blog.title | slice:'10' }}" post?</h3>
     <form action="" method="post">
 
       {% csrf_token %}

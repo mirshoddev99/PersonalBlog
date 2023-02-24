@@ -21,7 +21,7 @@
 
   }
 
-  .add_coment{
+  .add-comment{
     text-align: end;
     margin-bottom: 20px;
 }
@@ -77,14 +77,13 @@
         </div>
 
   {% endfor %}
-
 {% endif %}
 
-{% if request.user.is_authenticated %}
+
 
 <div class="row mt-5">
     <div class="col-6">
-            <h1 class="add_coment">Leave a comment</h1>
+            <h1 class="add-comment">Leave a comment</h1>
             <form action="{% url 'reviews' blog.id %}" method="post">
                   {% csrf_token %}
                   {{ comment_form.media }}
@@ -95,20 +94,4 @@
     </div>
 </div>
 
-
-{% else %}
-<div class="row mt-5">
-    <div class="col-6">
-            <h1 class="add_coment">Leave a comment</h1>
-            <form method="post">
-                  {% csrf_token %}
-                  {{ comment_form.media }}
-                  {{ comment_form | crispy }}
-
-                <a href="{% url 'members:register' %}" class="btn btn-success" role="button">Add review</a>
-            </form>
-    </div>
-</div>
-
-{% endif %}
 {% endblock content %}
