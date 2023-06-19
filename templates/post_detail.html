@@ -5,8 +5,7 @@
 {% block content %}
 
 
-<style>
-
+<style xmlns="http://www.w3.org/1999/html">
   .card{
      width: 1200px;
      margin: 15px auto;
@@ -46,7 +45,7 @@
                 <img class="card-img-top" src="{{ blog.photo.url }}" alt="{{ blog.title }}"><br><br>
               {% endif %}
               <h1 class="card-title">{{ blog.title }}</h1><br>
-              <h6 class="card-subtitle mb-2 text-muted">Author: {{ superuser.username }} | {{ blog.add_time }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Author: {{ superuser.username }} | {{ blog.add_time }} | <span class="counter"><i class="fas fa-light fa-eye"> {{ counter }}</i></span> </h6>
               <hr>
               <p class="card-text">{{ blog.text | safe }}</p><br>
 

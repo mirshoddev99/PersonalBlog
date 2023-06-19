@@ -23,3 +23,10 @@ class CustomUserRegisterForm(forms.ModelForm):
         if password and password2 and password2 != password:
             raise forms.ValidationError("Password does not match")
         return password2
+
+    def clean_username(self):
+        user_name = self.cleaned_data['username']
+        user_exists = CustomUser.objects.filter(username=user_name).exists()
+        if user_exists:
+            raise forms.ValidationError('This username is already in use')
+        return user_name

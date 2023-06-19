@@ -1,16 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from members.models import CustomUser
-from .models import Blog, Comment
+from .models import Blog, Comment, PostViews
 from .forms import BlogForm, BlogChangeForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 
-def main(request):
-    return render(request, 'main.html')
+class MainView(View):
+    def get(self, request):
+        return render(request, 'main.html')
 
 
 def index(request):
@@ -65,15 +67,6 @@ def delete(request, pk):
     return render(request, 'post_delete.html', context)
 
 
-class BlogDetailView(View):
-    def get(self, request, id):
-        blog = Blog.objects.get(id=id)
-        comment_form = CommentForm()
-        superuser = CustomUser.objects.get(username='admin99')
-        context = {'blog': blog, "superuser": superuser, "comment_form": comment_form}
-        return render(request, 'post_detail.html', context)
-
-
 class CustomUserMixin:
     def dispatch(self, request, *args, **kwargs):
         user = request.user
@@ -91,6 +84,28 @@ class CustomUserMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
+class BlogDetailView(View):
+    def get(self, request, id):
+        blog = get_object_or_404(Blog, id=id)
+        comment_form = CommentForm()
+        superuser = CustomUser.objects.get(username='admin99')
+
+        # counting the viewed posts
+        # get the user's IP address
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+            print(f"IP ADDRESS: {ip}")
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+            print(f"IP ADDRESS: {ip}")
+
+        PostViews.objects.get_or_create(IPAddres=ip, post=blog)
+
+        context = {'blog': blog, "superuser": superuser, "comment_form": comment_form, "counter": blog.views_count}
+        return render(request, 'post_detail.html', context)
+
+
 class CommentView(CustomUserMixin, View):
     def post(self, request, id):
         blog = Blog.objects.get(id=id)
@@ -101,10 +116,3 @@ class CommentView(CustomUserMixin, View):
 
             return redirect(reverse("post_detail", kwargs={"id": blog.id}))
         return render(request, "post_detail.html", {"comment_form": comment_form, "blog": blog})
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     if not request.user.is_authenticated:
-    #         return redirect('members:login')
-    #     return super().dispatch(request, *args, **kwargs)
-    # post method of CommentView is not executed if a user does not log in.
-    # Instead, The user will be redirected to the LoginView
