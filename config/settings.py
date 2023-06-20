@@ -94,14 +94,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DATABASES = {
     'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
-
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -140,7 +140,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -151,8 +151,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'main'
 
 # MEDIA
-MEDIA_URL = '/media/'
-MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # CKEDITOR CONFIGS
 CKEDITOR_CONFIGS = {
