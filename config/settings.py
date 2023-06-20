@@ -15,12 +15,7 @@ SECRET_KEY = 'django-insecure-6zh#1m@4f)3ngqb6)3tdbe-up*4ko52d9w)(cwsmuxlalfxz8+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# The settings for deploying on Railway
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
-# if DEBUG:
-#     CSRF_TRUSTED_ORIGINS = ['https://deafening-wilderness-production.up.railway.app']
 
 
 # Application definition
@@ -93,12 +88,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-
-# DATABASES = {
-#     'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
-# }
-
 
 
 # Password validation
